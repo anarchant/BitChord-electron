@@ -25,6 +25,16 @@ app.commandLine.appendSwitch(
 );
 app.commandLine.appendSwitch('disable-features', 'UseChromeOSDirectVideoDecoder');
 
+// Bit-perfect & high-fidelity lossless audio output pipeline
+// Bypasses software resampling so streams output at their native sample rate (44.1kHz, 96kHz, etc.)
+app.commandLine.appendSwitch('disable-audio-output-resampler');
+// Enables WASAPI Exclusive mode on Windows (bypasses Windows Audio Engine mixer for bit-perfect output)
+app.commandLine.appendSwitch('enable-exclusive-audio');
+// High priority audio processing thread to prevent underruns/jitter
+app.commandLine.appendSwitch('audio-process-high-priority');
+// Native channel mapping without remixing or downmixing
+app.commandLine.appendSwitch('try-supported-channel-layouts');
+
 // Auto-detect Wayland on Linux (solves blurry scaling and eliminates XWayland overhead)
 if (process.platform === 'linux') {
   app.commandLine.appendSwitch('ozone-platform-hint', 'auto');
